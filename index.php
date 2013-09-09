@@ -2,6 +2,10 @@
 <html>
 <head>
     <title>Testing AngularJS App Setup</title>
+
+    <?php if (isset($_GET['live'])): ?>
+    <script src="vendor/angular-loader/angular-loader.min.js"></script>
+    <?php endif; ?>
 </head>
 <body>
     <div id="app2">
@@ -59,6 +63,10 @@
          </section>
     </div>
 
+    <?php if (isset($_GET['live'])): ?>
+    <script src="js/main.all.js"></script>
+    <?php else: ?>
     <script src="/vendor/requirejs/require.js" data-main="/js/main.js"></script>
+    <?php endif; ?>
 </body>
 </html>

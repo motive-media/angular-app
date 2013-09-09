@@ -4,6 +4,7 @@
   "dependencies": {
     "requirejs": "~2.1.8",
     "jquery": "~2.0.3",
-    "cobalt-js": "~0.0.2"
+    "cobalt-js": "~0.0.2",
+    "almond": "~0.2.6"
   }
 }

@@ -2,17 +2,17 @@ require.config({
     baseUrl: '/js',
     paths: {
         // Vendor files
-        'jquery': '../vendor/jquery/jquery',
-        'angular': 'http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.min',
+        'jquery': '../vendor/jquery/jquery.min',
+        //'angular': '//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.min',
+        'angular': 'vendor/angular.1.1.5.min',
 
         // Cobalt files
-        'cbDirectives': '../vendor/cobalt-js/angularjs/cbDirectives',
-        //'cbDirectives': 'cbDirectives',
+        //'cbDirectives': '../vendor/cobalt-js/angularjs/cbDirectives',
         'cbSlider': '../vendor/cobalt-js/angularjs/directives/cbSlider',
-        //cbSlider': 'directives/cbSlider',
 
         // Application files
         'app': 'app'
+
     },
     shim: {
         'jquery': {
@@ -20,16 +20,12 @@ require.config({
         },
         'angular': {
             exports: 'angular'
-        },
-        'cbDirectives': {
-            deps: ['angular']
-        },
-        'cbSlider': {
-            deps: ['cbDirectives']
         }
     }
 });
 
-require(['jquery', 'angular', 'app', 'cbSlider'], function ($, angular, app) {
+require(['jquery', 'angular', 'app'], function ($, angular, app) {
+    'use strict';
+
     angular.bootstrap(document, ['cobaltApp']);
 });
