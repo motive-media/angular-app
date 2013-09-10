@@ -598,144 +598,103 @@ db("html")):w=R;Ha.element=w;(function(a){t(a,{bootstrap:xb,copy:V,extend:t,equa
 input:ic,textarea:ic,form:sd,script:ae,select:ce,style:ee,option:de,ngBind:Dd,ngBindHtmlUnsafe:Fd,ngBindTemplate:Ed,ngClass:Gd,ngClassEven:Id,ngClassOdd:Hd,ngCsp:Ld,ngCloak:Jd,ngController:Kd,ngForm:td,ngHide:Ud,ngIf:Nd,ngInclude:Od,ngInit:Pd,ngNonBindable:Qd,ngPluralize:Rd,ngRepeat:Sd,ngShow:Td,ngSubmit:Md,ngStyle:Vd,ngSwitch:Wd,ngSwitchWhen:Xd,ngSwitchDefault:Yd,ngOptions:be,ngView:$d,ngTransclude:Zd,ngModel:yd,ngList:Ad,ngChange:zd,required:jc,ngRequired:jc,ngValue:Cd}).directive(pb).directive(kc);
 a.provider({$anchorScroll:Cc,$animation:Ib,$animator:qd,$browser:Ec,$cacheFactory:Fc,$controller:Jc,$document:Kc,$exceptionHandler:Lc,$filter:Zb,$interpolate:Mc,$http:bd,$httpBackend:cd,$location:Nc,$log:Oc,$parse:Sc,$route:Vc,$routeParams:Wc,$rootScope:Xc,$q:Tc,$sniffer:Yc,$templateCache:Gc,$timeout:gd,$window:Zc})}])})(Ha);w(T).ready(function(){rc(T,xb)})})(window,document);angular.element(document).find("head").append('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none;}ng\\:form{display:block;}</style>');
 
-define("angular", (function (global) {
+define("angular", ["jquery"], (function (global) {
     return function () {
         var ret, fn;
         return ret || global.angular;
     };
 }(this)));
 
-;(function (factory) {
+/*! cobalt-js - v0.1.2 - 2013-09-10 */
+(function() {
     
-
-    if (typeof define === 'function' && define.amd) {
-        define('cbSlider',['angular'], factory);
-    } else {
-        factory(angular);
-    }
-}(function (angular) {
-    
-
-    /**
-     * Cobalt Slider
-     * - Generic Slider
-     *
-     * <element cb-slider="options" cb-slider-data="collection"></element>
-     *
-     * options [Object]
-     *   option name    : type     : default    : description
-     *   =====================================================================================
-     *   collectionName : String   : 'pages'    : Name of paged collection attached to scope
-     *   perPage        : Number   : 1          : Number of article per page
-     *   autoPlay       : Boolean  : false      : Auto progress the slider
-     *   initialDelay   : Number   : 7000       : Time in ms before auto play starts
-     *   delay          : Number   : 5000       : Minimum time in ms between slides
-     *   delayFlux      : Number   : 1000       : Maximum additional time in ms between slides
-     *
-     * collection [Array]
-     *
-     <example>
-        <div ng-init='people = [{"name":"Arnold"},{"name":"Joshua"},{"name":"Cassiopeia"}]'
-             cb-slider='{perPage: 2, collectionName: 'groups'}' cb-slider-data="people">
-            <div ng-repeat="group in slider.groups">
-                <span ng-repeat="person in group">{{ person.name }}</span>
-            </div>
-        </div>
-     </example>
-     */
-
-    angular.module('cbSlider', []).directive('cbSlider', function($timeout) {
+    angular.module("cb.directives", []);
+    angular.module("cb.utilities", [ "cb.directives" ]);
+    angular.module("cb.directives").directive("cbSlider", [ "$timeout", function(a) {
+        
         return {
-            restrict: 'A',
-            scope: {collection: '=cbSliderData'},
-            link: function(scope, element, attrs) {
-                var lastPage, next, options, resetTimer, timer = null, slider, thePages;
-
-                options = {
-                    'currentPage'   : 0,
-                    'perPage'       : 1,
-                    'collectionName': 'pages',
-                    'autoPlay'      : false,
-                    'initialDelay'  : 7000,
-                    'delay'         : 5000,
-                    'delayFlux'     : 1000
+            restrict: "A",
+            scope: {
+                collection: "=cbSliderData"
+            },
+            link: function(b, c, d) {
+                var e, f, g, h, i = null, j, k;
+                g = {
+                    currentPage: 0,
+                    perPage: 1,
+                    collectionName: "pages",
+                    autoPlay: false,
+                    initialDelay: 7e3,
+                    delay: 5e3,
+                    delayFlux: 1e3
                 };
-
-                angular.extend(options, scope.$eval(attrs['cbSlider']));
-
-                slider = scope.slider = {
-                    currentPage: options.currentPage
+                angular.extend(g, b.$eval(d.cbSlider));
+                j = b.slider = {
+                    currentPage: g.currentPage
                 };
-
-                scope.$watch('collection', function (newValue){
-
-                    lastPage = Math.ceil(newValue.length / options.perPage) - 1;
-
-                    // Split collection into pages, if necessary
-                    if (options.perPage === 1) {
-                        thePages = newValue
+                b.$watch("collection", function(a) {
+                    e = Math.ceil(a.length / g.perPage) - 1;
+                    if (g.perPage === 1) {
+                        k = a;
                     } else {
-                        thePages = [];
-                        for (var i = 0, _length = newValue.length; i < _length; i += options.perPage) {
-                            thePages.push(newValue.slice(i, i + options.perPage));
+                        k = [];
+                        for (var b = 0, c = a.length; b < c; b += g.perPage) {
+                            k.push(a.slice(b, b + g.perPage));
                         }
                     }
-
-                    slider[options.collectionName] = thePages;
+                    j[g.collectionName] = k;
                 });
-
-                next = function () {
-                    var nextId = (slider.currentPage + 1) % (lastPage + 1);
-                    slider.left = true;
-                    slider.currentPage = nextId;
-                    timer = $timeout(next, options.delay + Math.random() * options.delayFlux);
+                f = function() {
+                    var b = (j.currentPage + 1) % (e + 1);
+                    j.left = true;
+                    j.currentPage = b;
+                    i = a(f, g.delay + Math.random() * g.delayFlux);
                 };
-
-                resetTimer = function () {
-                    if (options.autoPlay && (timer != null)) {
-                        $timeout.cancel(timer);
-                        timer = $timeout(next, options.initialDelay);
+                h = function() {
+                    if (g.autoPlay && i !== null) {
+                        a.cancel(i);
+                        i = a(f, g.initialDelay);
                     }
                 };
-
-                slider.next = function () {
-                    resetTimer();
-                    if (slider.currentPage < lastPage) {
-                        slider.left = true;
-                        slider.currentPage++;
+                j.next = function() {
+                    h();
+                    if (j.currentPage < e) {
+                        j.left = true;
+                        j.currentPage++;
                     }
                 };
-
-                slider.prev = function() {
-                    resetTimer();
-                    if (slider.currentPage > 0) {
-                        slider.left = false;
-                        slider.currentPage--;
+                j.prev = function() {
+                    h();
+                    if (j.currentPage > 0) {
+                        j.left = false;
+                        j.currentPage--;
                     }
                 };
-
-                slider.goto = function(index) {
-                    resetTimer();
-                    if (index >= 0 && index <= lastPage) {
-                        if (slider.currentPage < index) {
-                            slider.left = true;
+                j.goto = function(a) {
+                    h();
+                    if (a >= 0 && a <= e) {
+                        if (j.currentPage < a) {
+                            j.left = true;
                         } else {
-                            slider.left = false;
+                            j.left = false;
                         }
-                        slider.currentPage = index;
+                        j.currentPage = a;
                     }
                 };
-
-                if (options.autorotate === true) {
-                    timer = $timeout(next, options.initialDelay);
+                if (g.autorotate === true) {
+                    i = a(f, g.initialDelay);
                 }
             }
         };
-    });
-}));
+    } ]);
+})();
 
-define('app', ['jquery', 'angular', 'cbSlider'], function ($, angular, cbSlider) {
-    var app = angular.module('cobaltApp', ['cbSlider']);
+define("cobaltAngular", ["angular"], function(){});
+
+define('app', ['jquery', 'angular', 'cobaltAngular'], function ($, angular, cobaltAngular) {
+    
+
+    var app = angular.module('cobaltApp', ['cb.utilities']);
 
     return app;
 });
@@ -750,7 +709,7 @@ require.config({
 
         // Cobalt files
         //'cbDirectives': '../vendor/cobalt-js/angularjs/cbDirectives',
-        'cbSlider': '../vendor/cobalt-js/angularjs/directives/cbSlider',
+        'cobaltAngular': '../vendor/cobalt-js/cobalt.angular',
 
         // Application files
         'app': 'app'
@@ -761,7 +720,11 @@ require.config({
             exports: '$'
         },
         'angular': {
-            exports: 'angular'
+            exports: 'angular',
+            deps: ['jquery']
+        },
+        'cobaltAngular': {
+            deps: ['angular']
         }
     }
 });
