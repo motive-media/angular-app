@@ -8,7 +8,7 @@ require.config({
 
         // Cobalt files
         //'cbDirectives': '../vendor/cobalt-js/angularjs/cbDirectives',
-        'cbSlider': '../vendor/cobalt-js/angularjs/directives/cbSlider',
+        'cobaltAngular': '../vendor/cobalt-js/cobalt.angular',
 
         // Application files
         'app': 'app'
@@ -19,7 +19,11 @@ require.config({
             exports: '$'
         },
         'angular': {
-            exports: 'angular'
+            exports: 'angular',
+            deps: ['jquery']
+        },
+        'cobaltAngular': {
+            deps: ['angular']
         }
     }
 });
