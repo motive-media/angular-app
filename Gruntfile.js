@@ -1,8 +1,14 @@
 module.exports = function (grunt) {
     grunt.initConfig({
-        base_url: '',
+        // Base URL
+        base_url: '.',
+
+        // JS Folder URL
         js_url: '<%= base_url %>/js',
-        js_build_url: '<% base_url %>/js_build',
+        // JS Build Folder URL
+        js_build_url: '<%= base_url %>/js_build',
+
+        // Lint through js files
         jshint: {
             options: {
                 curly: true,
@@ -17,45 +23,48 @@ module.exports = function (grunt) {
             files: ['<%= js_url %>/**/*.js']
         },
 
+        // ngmin angular files to protect variable names
         ngmin: {
             controllers: {
                 expand: true,
-                cwd: '<% js_build_url %>',
+                cwd: '<%= js_build_url %>',
                 src: ['controllers/**/*.js'],
-                dest: '<% js_build_url %>/controllers'
+                dest: '<%= js_build_url %>/controllers'
             },
             directives: {
                 expand: true,
-                cwd: '<% js_build_url %>',
+                cwd: '<%= js_build_url %>',
                 src: ['directives/**/*.js'],
-                dest: '<% js_build_url %>/directives'
+                dest: '<%= js_build_url %>/directives'
             },
             filters: {
                 expand: true,
-                cwd: '<% js_build_url %>',
+                cwd: '<%= js_build_url %>',
                 src: ['filters/**/*.js'],
-                dest: '<% js_build_url %>/filters'
+                dest: '<%= js_build_url %>/filters'
             },
             views: {
                 expand: true,
-                cwd: '<% js_build_url %>',
+                cwd: '<%= js_build_url %>',
                 src: ['views/**/*.js'],
-                dest: '<% js_build_url %>/views'
+                dest: '<%= js_build_url %>/views'
             }
         },
 
+        // delete files
         clean: {
-            build: ['<% js_build_url %>']
+            build: ['<%= js_build_url %>']
         },
 
+        // copy files to build
         copy: {
             build: {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= js_url %>',
+                        cwd: '<%= js_url %>/',
                         src: ['**'],
-                        dest: '<% js_build_url %>'
+                        dest: '<%= js_build_url %>/'
                     }
                 ]
             }
@@ -67,9 +76,9 @@ module.exports = function (grunt) {
                     almond: true,
                     name: 'main',
                     compress: 'none',
-                    baseUrl: '<% js_build_url %>',
-                    mainConfigFile: '<% js_build_url %>/main.js',
-                    out: '<% js_build_url %>/main.build.js',
+                    baseUrl: '<%= js_build_url %>',
+                    mainConfigFile: '<%= js_build_url %>/main.js',
+                    out: '<%= js_build_url %>/main.build.js',
                     preserveLicenseComments: false,
                     loglevel: 0
                 }
@@ -82,7 +91,7 @@ module.exports = function (grunt) {
                     mangle: false
                 },
                 files: {
-                    '<%= js_url %>/main.min.js': ['<% js_build_url %>/main.build.js']
+                    '<%= js_url %>/main.min.js': ['<%= js_build_url %>/main.build.js']
                 }
             }
         }
@@ -98,8 +107,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
 
     // Register tasks
-    //grunt.registerTask('default', ['jshint', 'requirejs:build', 'uglify:build']);
-    //grunt.registerTask('build', ['requirejs:build', 'uglify:build']);
     grunt.registerTask('default', ['build']);
     grunt.registerTask('test', ['jshint']);
     grunt.registerTask('build', [
