@@ -26,7 +26,7 @@
  </example>
  */
 
-angular.module('cb.directives').directive('cbSlider', function ($timeout) {
+angular.module('cbSlider', []).directive('cbSlider', function ($timeout) {
     'use strict';
 
     return {
@@ -57,21 +57,24 @@ angular.module('cb.directives').directive('cbSlider', function ($timeout) {
                 currentPage: options.currentPage
             };
 
-            scope.$watch('collection', function (newValue) {
-                lastPage = Math.ceil(newValue.length / options.perPage) - 1;
-
-                // Split collection into pages, if necessary
-                if (options.perPage === 1) {
-                    thePages = newValue;
+            scope.$watch('collection', function (newValue){
+                if (newValue === null) {
+                    slide[options.collectionName] = null;
                 } else {
-                    thePages = [];
+                    lastPage = Math.ceil(newValue.length / options.perPage) - 1;
 
-                    for (var i = 0, _length = newValue.length; i < _length; i += options.perPage) {
-                        thePages.push(newValue.slice(i, i + options.perPage));
+                    // Split collection into pages, if necessary
+                    if (options.perPage === 1) {
+                        thePages = newValue;
+                    } else {
+                        thePages = [];
+                        for (var i = 0, _length = newValue.length; i < _length; i += options.perPage) {
+                            thePages.push(newValue.slice(i, i + options.perPage));
+                        }
                     }
-                }
 
-                slider[options.collectionName] = thePages;
+                    slider[options.collectionName] = thePages;
+                }
             });
 
             next = function () {
@@ -120,7 +123,7 @@ angular.module('cb.directives').directive('cbSlider', function ($timeout) {
                 }
             };
 
-            if (options.autorotate === true) {
+            if (options.autoPlay === true) {
                 timer = $timeout(next, options.initialDelay);
             }
         }
