@@ -1,4 +1,7 @@
 module.exports = function (grunt) {
+    // Load NPM Tasks
+    require("matchdep").filter("grunt-*").forEach(grunt.loadNpmTasks);
+
     grunt.initConfig({
         // Base URL
         base_url: '.',
@@ -96,15 +99,6 @@ module.exports = function (grunt) {
             }
         }
     });
-
-    // Load tasks
-    grunt.loadNpmTasks('grunt-requirejs');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-ngmin');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-concat');
 
     // Register tasks
     grunt.registerTask('default', ['build']);
