@@ -1,6 +1,6 @@
 {
   "name": "cobalt-js",
-  "version": "0.2.0",
+  "version": "0.3.4",
   "main": "cobalt.js",
   "ignore": [
     "test"
@@ -8,11 +8,11 @@
   "dependencies": {},
   "devDependencies": {},
   "homepage": "https://github.com/motive-media/cobalt-js",
-  "_release": "0.2.0",
+  "_release": "0.3.4",
   "_resolution": {
     "type": "version",
-    "tag": "v0.2.0",
-    "commit": "5a06c49fc2b3abc2037844d9a1a1b322a529c886"
+    "tag": "v0.3.4",
+    "commit": "ceef974a975901fc8d02a976c552412dd43b6899"
   },
   "_source": "git://github.com/motive-media/cobalt-js.git",
   "_target": "*",
